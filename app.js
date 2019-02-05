@@ -15,9 +15,14 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.post('/', service.limitation);
+//app.post('/', service.limitation);
 
-app.get('/:name', service.bobi);
+//app.get('/:name', service.bobi);
+
+app.get('/', service.get);
+app.post('/', service.create);
+app.put('/', service.update);
+app.delete('/', service.delete);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
