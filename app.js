@@ -15,10 +15,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-//app.post('/', service.limitation);
-
-//app.get('/:name', service.bobi);
-
 app.get('/', service.get);
 app.post('/', service.create);
 app.put('/', service.update);

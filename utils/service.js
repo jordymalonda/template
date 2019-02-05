@@ -1,11 +1,10 @@
-const request = require('request-promise');
+// const request = require('request-promise');
 const User = require('../models/user');
-const { httpStatus, trxStatus } = require('./../configs/codes');
-const Sequelize = require('./../configs/db');
+const { httpStatus } = require('./../configs/codes');
+// const Sequelize = require('./../configs/db');
 const helper = require('./helper');
-const cuid = require('cuid');
 const config = require('../config');
-const logger = require('../utils/logger');
+const crypto = require('crypto');
 // const { Op } = require('sequelize');
 
 module.exports = {
@@ -41,17 +40,19 @@ module.exports = {
         });
       }
 
+      const hash = crypto.createHmac('sha256', config.get('SECRET')).update(req.body.password).digest('hex');
+
       const params = {
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: hash,
         created_at: date,
         update_at: date
       };
 
       const result = await User.create(params);
 
-      return res.status(httpStatus.ok).json(params);
+      return res.status(httpStatus.ok).json(result);
     } catch (e) {
       return res.status(e.statusCode || httpStatus.internalServerError).json({
         status: e.statusCode || httpStatus.internalServerError,
@@ -60,7 +61,7 @@ module.exports = {
       });
     }
   },
-  
+
   update: async (req, res) => {
     const date = await helper.getDate();
     try {
@@ -103,7 +104,7 @@ module.exports = {
         }
       });
 
-      return res.status(httpStatus.ok).json(params);
+      return res.status(httpStatus.ok).json(result);
     } catch (e) {
       return res.status(e.statusCode || httpStatus.internalServerError).json({
         status: e.statusCode || httpStatus.internalServerError,
@@ -170,6 +171,5 @@ module.exports = {
         message: (e.error && e.error.message) || e.message
       });
     }
-  },  
-
-}
+  },
+};
