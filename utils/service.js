@@ -11,7 +11,7 @@ const logger = require('../utils/logger');
 module.exports = {
   limitation: async (req, res) => {
     try {
-      req.checkParams({
+      req.checkQuery({
         limit: { notEmpty: true, errorMessage: 'limit field is required' },
       });
 
@@ -26,7 +26,7 @@ module.exports = {
 
       const data = [];
 
-      for (let i = 0; i < limit; i++) {
+      for (let i = 0; i < req.query.limit; i++) {
         data.push(`hitungan ke ${i+1}`)
       }
       return res.status(httpStatus.ok).json(data);
@@ -38,4 +38,15 @@ module.exports = {
       });
     }
   },
-};
+    bobi : async (req, res) => {
+    
+    let data = 'benar';
+    if (req.params.name !== 'joko') {
+      data = 'salah';
+      return res.status(200).json(data)
+    }
+    return res.status(200).json(data);
+        
+    }
+
+}
