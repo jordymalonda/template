@@ -62,6 +62,20 @@ module.exports = {
     }
   },
 
+  get: async (req, res) => {
+    try {
+      const result = await User.findAll();
+
+      return res.status(httpStatus.ok).json(result);
+    } catch (e) {
+      return res.status(e.statusCode || httpStatus.internalServerError).json({
+        status: e.statusCode || httpStatus.internalServerError,
+        success: false,
+        message: (e.error && e.error.message) || e.message
+      });
+    }
+  },
+
   update: async (req, res) => {
     const date = await helper.getDate();
     try {
@@ -103,20 +117,6 @@ module.exports = {
           id: req.body.id
         }
       });
-
-      return res.status(httpStatus.ok).json(result);
-    } catch (e) {
-      return res.status(e.statusCode || httpStatus.internalServerError).json({
-        status: e.statusCode || httpStatus.internalServerError,
-        success: false,
-        message: (e.error && e.error.message) || e.message
-      });
-    }
-  },
-
-  get: async (req, res) => {
-    try {
-      const result = await User.findAll();
 
       return res.status(httpStatus.ok).json(result);
     } catch (e) {
