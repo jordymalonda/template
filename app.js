@@ -16,7 +16,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', service.get);
-app.get('/:id', service.getDetail);
 app.post('/', service.create);
 app.put('/', service.update);
 app.delete('/', service.delete);
