@@ -1,8 +1,9 @@
 const config = require('./config');
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const expressValidator = require('express-validator');
-const service = require('./utils/service');
+const enrouten = require('express-enrouten');
 
 /* eslint-disable no-console */
 
@@ -15,10 +16,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.get('/', service.get);
-app.post('/', service.create);
-app.put('/', service.update);
-app.delete('/', service.delete);
+app.use(enrouten({
+  directory: path.join(__dirname, 'controllers')
+}));
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

@@ -1,10 +1,8 @@
 const winston = require('winston');
 require('winston-daily-rotate-file');
-
-const config = require('./../config');
 const fs = require('fs');
 
-const logDir = `${config.get('LOG_DIR')}/`;
+const logDir = 'logs/';
 
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
